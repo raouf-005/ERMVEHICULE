@@ -18,7 +18,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/src/components/ui/table";
-import { Badge } from "@/src/components/ui/badge"; // Check if Badge exists, if not use span or create it
+import { Badge } from "@/src/components/ui/badge";
+import { Pencil } from "lucide-react";
+import { DeleteInvoiceButton } from "./DeleteInvoiceButton";
+import { DuplicateInvoiceButton } from "./DuplicateInvoiceButton";
 
 // Helper for Badge if not exists (I'll check later, assume basic UI)
 function StatusBadge({ status }: { status: string }) {
@@ -84,7 +87,27 @@ export default async function InvoiceDetailPage({
               `${invoice.customer.firstName} ${invoice.customer.lastName}`}
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
+          {/* Edit Button - only for DRAFT or ISSUED */}
+          {(invoice.status === "DRAFT" || invoice.status === "ISSUED") && (
+            <Link href={`/invoices/${invoice.id}/edit`}>
+              <Button variant="outline" size="sm">
+                <Pencil className="mr-2 h-4 w-4" />
+                Modifier
+              </Button>
+            </Link>
+          )}
+
+          {/* Duplicate Button */}
+          <DuplicateInvoiceButton invoiceId={invoice.id} />
+
+          {/* Delete Button */}
+          <DeleteInvoiceButton
+            invoiceId={invoice.id}
+            invoiceNumber={invoice.invoiceNumber}
+            status={invoice.status}
+          />
+
           {/* Status Actions */}
           <InvoiceStatusActions
             invoiceId={invoice.id}

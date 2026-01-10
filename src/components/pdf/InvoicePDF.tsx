@@ -42,12 +42,12 @@ const COLORS = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 40,
-    paddingBottom: 120,
-    fontSize: 10,
+    padding: 32,
+    paddingBottom: 92,
+    fontSize: 9,
     fontFamily: "Helvetica",
     color: COLORS.textMain,
-    lineHeight: 1.6,
+    lineHeight: 1.35,
   },
 
   /* ---------- HEADER ---------- */
@@ -55,9 +55,9 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 40,
-    paddingBottom: 20,
-    borderBottomWidth: 2,
+    marginBottom: 18,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
     borderBottomColor: COLORS.accent,
   },
 
@@ -66,21 +66,21 @@ const styles = StyleSheet.create({
   },
 
   companyName: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
     color: COLORS.accent,
-    marginBottom: 8,
+    marginBottom: 6,
   },
 
   companyAddress: {
-    fontSize: 9,
+    fontSize: 8.5,
     color: COLORS.textMuted,
     lineHeight: 1.4,
   },
 
   invoiceMetaBlock: {
     width: "40%",
-    padding: 14,
+    padding: 10,
     borderWidth: 1,
     borderColor: COLORS.border,
     borderRadius: 6,
@@ -89,33 +89,33 @@ const styles = StyleSheet.create({
   },
 
   invoiceTitle: {
-    fontSize: 10,
+    fontSize: 8.5,
     letterSpacing: 2,
     textTransform: "uppercase",
     color: COLORS.textMuted,
-    marginBottom: 6,
+    marginBottom: 4,
   },
 
   invoiceNumber: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
     color: COLORS.accent,
-    marginBottom: 8,
+    marginBottom: 6,
   },
 
   dateRow: {
     flexDirection: "row",
-    marginTop: 4,
+    marginTop: 2,
   },
 
   dateLabel: {
-    fontSize: 9,
+    fontSize: 8.5,
     color: COLORS.textMuted,
     marginRight: 6,
   },
 
   dateValue: {
-    fontSize: 9,
+    fontSize: 8.5,
     fontWeight: "bold",
   },
 
@@ -123,8 +123,8 @@ const styles = StyleSheet.create({
 
   grid: {
     flexDirection: "row",
-    gap: 20,
-    marginBottom: 40,
+    gap: 12,
+    marginBottom: 16,
   },
 
   column: {
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
 
   infoCard: {
-    padding: 18,
+    padding: 12,
     borderWidth: 1,
     borderColor: COLORS.border,
     borderRadius: 6,
@@ -140,29 +140,29 @@ const styles = StyleSheet.create({
   },
 
   sectionLabel: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: "bold",
     textTransform: "uppercase",
     letterSpacing: 1,
     color: COLORS.textMuted,
-    marginBottom: 10,
-  },
-
-  clientName: {
-    fontSize: 12,
-    fontWeight: "bold",
-    color: COLORS.accent,
     marginBottom: 6,
   },
 
+  clientName: {
+    fontSize: 10.5,
+    fontWeight: "bold",
+    color: COLORS.accent,
+    marginBottom: 4,
+  },
+
   addressText: {
-    fontSize: 10,
-    marginBottom: 2,
+    fontSize: 9,
+    marginBottom: 1,
   },
 
   vehicleText: {
-    fontSize: 10,
-    marginBottom: 4,
+    fontSize: 9,
+    marginBottom: 2,
   },
 
   vehicleHighlight: {
@@ -173,14 +173,14 @@ const styles = StyleSheet.create({
   /* ---------- TABLE ---------- */
 
   tableContainer: {
-    marginTop: 10,
-    marginBottom: 30,
+    marginTop: 6,
+    marginBottom: 14,
   },
 
   tableHeader: {
     flexDirection: "row",
     backgroundColor: COLORS.tableHeaderBg,
-    paddingVertical: 10,
+    paddingVertical: 6,
     paddingHorizontal: 4,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.accent,
@@ -188,21 +188,21 @@ const styles = StyleSheet.create({
 
   tableRow: {
     flexDirection: "row",
-    paddingVertical: 12,
+    paddingVertical: 6,
     paddingHorizontal: 4,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
   },
 
   th: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: "bold",
     color: COLORS.accent,
     textTransform: "uppercase",
   },
 
   td: {
-    fontSize: 10,
+    fontSize: 9,
   },
 
   colDesc: { width: "50%" },
@@ -219,8 +219,8 @@ const styles = StyleSheet.create({
   },
 
   totalsContainer: {
-    width: "40%",
-    padding: 18,
+    width: "45%",
+    padding: 12,
     borderWidth: 1,
     borderColor: COLORS.accent,
     borderRadius: 6,
@@ -230,37 +230,37 @@ const styles = StyleSheet.create({
   totalRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 6,
+    paddingVertical: 4,
   },
 
   totalLabel: {
-    fontSize: 10,
+    fontSize: 9,
     color: COLORS.textMuted,
   },
 
   totalValue: {
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: "bold",
   },
 
   finalTotalRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    borderTopWidth: 2,
+    borderTopWidth: 1,
     borderTopColor: COLORS.accent,
-    paddingTop: 14,
-    marginTop: 10,
+    paddingTop: 8,
+    marginTop: 6,
   },
 
   finalTotalLabel: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: "bold",
     color: COLORS.accent,
     textTransform: "uppercase",
   },
 
   finalTotalValue: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "bold",
     color: COLORS.accent,
   },
@@ -268,8 +268,8 @@ const styles = StyleSheet.create({
   /* ---------- NOTES ---------- */
 
   notesContainer: {
-    marginTop: 18,
-    padding: 14,
+    marginTop: 10,
+    padding: 10,
     borderWidth: 1,
     borderColor: COLORS.border,
     borderRadius: 6,
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   },
 
   notesText: {
-    fontSize: 9,
+    fontSize: 8.5,
     color: COLORS.textMuted,
     lineHeight: 1.4,
   },
@@ -286,10 +286,10 @@ const styles = StyleSheet.create({
 
   footerContainer: {
     position: "absolute",
-    bottom: 30,
-    left: 40,
-    right: 40,
-    paddingTop: 15,
+    bottom: 18,
+    left: 32,
+    right: 32,
+    paddingTop: 10,
     borderTopWidth: 1,
     borderTopColor: COLORS.border,
   },
@@ -345,6 +345,13 @@ const formatCurrency = (
     style: "currency",
     currency: "EUR",
   });
+
+const truncate = (value: unknown, maxChars: number) => {
+  const text = typeof value === "string" ? value : String(value ?? "");
+  const trimmed = text.trim();
+  if (trimmed.length <= maxChars) return trimmed;
+  return `${trimmed.slice(0, Math.max(0, maxChars - 1)).trimEnd()}…`;
+};
 
 const isNonEmptyString = (value: unknown): value is string =>
   typeof value === "string" && value.trim().length > 0;
@@ -416,6 +423,13 @@ export const InvoicePDF = ({ invoice, companySettings }: InvoicePDFProps) => {
     (isNonEmptyString(company.invoiceFooter) && company.invoiceFooter.trim()) ||
     "Conditions de paiement : Paiement à réception. Aucun escompte pour paiement anticipé.";
 
+  // Contrainte 1 page: on limite la longueur des notes et le nombre de lignes affichées.
+  const notesText = truncate(paymentNotes, 260);
+
+  const MAX_ITEMS = 10;
+  const visibleItems = invoice.items.slice(0, MAX_ITEMS);
+  const hiddenItemsCount = Math.max(0, invoice.items.length - MAX_ITEMS);
+
   const legalLine = joinNonEmptyWith(" — ", [
     company.name,
     company.legalStatus,
@@ -426,7 +440,7 @@ export const InvoicePDF = ({ invoice, companySettings }: InvoicePDFProps) => {
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={styles.page} wrap={false}>
         {/* HEADER */}
         <View style={styles.header}>
           <View style={styles.logoBlock}>
@@ -546,7 +560,7 @@ export const InvoicePDF = ({ invoice, companySettings }: InvoicePDFProps) => {
               ]}
             >
               <Text style={[styles.td, styles.colDesc]}>
-                {item.description}
+                {truncate(item.description, 90)}
               </Text>
               <Text style={[styles.td, styles.colQty]}>
                 {Number(item.quantity)}
@@ -562,6 +576,18 @@ export const InvoicePDF = ({ invoice, companySettings }: InvoicePDFProps) => {
               </Text>
             </View>
           ))}
+
+          {hiddenItemsCount > 0 && (
+            <View style={styles.tableRow}>
+              <Text style={[styles.td, styles.colDesc]}>
+                {`+ ${hiddenItemsCount} ligne(s) supplémentaire(s) non affichée(s)`}
+              </Text>
+              <Text style={[styles.td, styles.colQty]}>{""}</Text>
+              <Text style={[styles.td, styles.colPrice]}>{""}</Text>
+              <Text style={[styles.td, styles.colVat]}>{""}</Text>
+              <Text style={[styles.td, styles.colTotal]}>{""}</Text>
+            </View>
+          )}
         </View>
 
         {/* TOTALS */}
@@ -591,7 +617,12 @@ export const InvoicePDF = ({ invoice, companySettings }: InvoicePDFProps) => {
         {/* NOTES / CONDITIONS */}
         <View style={styles.notesContainer}>
           <Text style={styles.sectionLabel}>Conditions / Notes</Text>
-          <Text style={styles.notesText}>{paymentNotes}</Text>
+          <Text style={styles.notesText}>
+            {notesText}
+            {hiddenItemsCount > 0
+              ? `\nDétail complet : ${hiddenItemsCount} ligne(s) supplémentaire(s) disponible(s) dans l'application.`
+              : ""}
+          </Text>
         </View>
 
         {/* FOOTER */}
