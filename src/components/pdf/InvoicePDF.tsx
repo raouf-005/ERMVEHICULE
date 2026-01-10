@@ -27,303 +27,421 @@ type InvoiceWithRelations = Invoice & {
   repairOrder?: RepairOrder | null;
 };
 
-/* ===================== COULEURS ===================== */
+/* ===================== COULEURS - THEME MINIMALISTE ===================== */
 
 const COLORS = {
-  textMain: "#111827",
-  textMuted: "#6B7280",
-  accent: "#0f172a",
+  primary: "#1F2937",
+  secondary: "#1F2937",
+  accent: "#374151",
+  dark: "#111827",
+  text: "#374151",
+  textLight: "#6B7280",
+  textMuted: "#9CA3AF",
+  background: "#F9FAFB",
+  white: "#FFFFFF",
   border: "#E5E7EB",
-  tableHeaderBg: "#F9FAFB",
-  rowAlt: "#FAFAFA",
+  success: "#374151",
+  warning: "#6B7280",
 };
 
-/* ===================== STYLES ===================== */
+/* ===================== STYLES - DESIGN MODERNE ===================== */
 
 const styles = StyleSheet.create({
   page: {
-    padding: 32,
-    paddingBottom: 92,
+    paddingTop: 0,
+    paddingBottom: 60,
+    paddingHorizontal: 0,
     fontSize: 9,
     fontFamily: "Helvetica",
-    color: COLORS.textMain,
-    lineHeight: 1.35,
+    color: COLORS.text,
+    backgroundColor: COLORS.white,
   },
 
-  /* ---------- HEADER ---------- */
+  heroHeader: {
+    backgroundColor: COLORS.primary,
+    paddingVertical: 24,
+    paddingHorizontal: 40,
+    marginBottom: 0,
+  },
 
-  header: {
+  heroContent: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 18,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.accent,
+    alignItems: "flex-start",
   },
 
-  logoBlock: {
-    width: "50%",
+  companySection: {
+    flex: 1,
   },
 
   companyName: {
-    fontSize: 16,
+    fontSize: 22,
     fontWeight: "bold",
-    color: COLORS.accent,
+    color: COLORS.white,
+    letterSpacing: 0.5,
     marginBottom: 6,
   },
 
-  companyAddress: {
-    fontSize: 8.5,
-    color: COLORS.textMuted,
-    lineHeight: 1.4,
+  companyDetails: {
+    fontSize: 8,
+    color: "rgba(255,255,255,0.8)",
+    lineHeight: 1.5,
   },
 
-  invoiceMetaBlock: {
-    width: "40%",
-    padding: 10,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    borderRadius: 6,
-    backgroundColor: "#FAFAFA",
-    alignItems: "flex-end",
+  invoiceBadge: {
+    backgroundColor: COLORS.white,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    minWidth: 160,
+    alignItems: "center",
   },
 
-  invoiceTitle: {
-    fontSize: 8.5,
-    letterSpacing: 2,
+  invoiceLabel: {
+    fontSize: 8,
+    color: COLORS.textLight,
     textTransform: "uppercase",
-    color: COLORS.textMuted,
+    letterSpacing: 2,
     marginBottom: 4,
   },
 
   invoiceNumber: {
     fontSize: 16,
     fontWeight: "bold",
-    color: COLORS.accent,
-    marginBottom: 6,
+    color: COLORS.primary,
+    marginBottom: 8,
   },
 
-  dateRow: {
+  invoiceDate: {
+    fontSize: 9,
+    color: COLORS.text,
+  },
+
+  statusRibbon: {
+    backgroundColor: COLORS.background,
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
     flexDirection: "row",
-    marginTop: 2,
+    justifyContent: "space-between",
   },
 
-  dateLabel: {
-    fontSize: 8.5,
+  statusItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+
+  statusLabel: {
+    fontSize: 8,
     color: COLORS.textMuted,
-    marginRight: 6,
   },
 
-  dateValue: {
-    fontSize: 8.5,
+  statusValue: {
+    fontSize: 9,
     fontWeight: "bold",
+    color: COLORS.dark,
   },
 
-  /* ---------- INFO GRID ---------- */
+  contentArea: {
+    paddingHorizontal: 40,
+    paddingTop: 20,
+  },
 
-  grid: {
+  infoGrid: {
     flexDirection: "row",
-    gap: 12,
-    marginBottom: 16,
-  },
-
-  column: {
-    width: "50%",
+    gap: 16,
+    marginBottom: 20,
   },
 
   infoCard: {
-    padding: 12,
-    borderWidth: 1,
-    borderColor: COLORS.border,
+    flex: 1,
+    padding: 14,
+    backgroundColor: COLORS.background,
     borderRadius: 6,
-    backgroundColor: "#FFFFFF",
+    borderLeftWidth: 3,
+    borderLeftColor: COLORS.border,
   },
 
-  sectionLabel: {
-    fontSize: 8,
+  infoCardAlt: {
+    borderLeftColor: COLORS.border,
+  },
+
+  cardTitle: {
+    fontSize: 7,
     fontWeight: "bold",
     textTransform: "uppercase",
-    letterSpacing: 1,
+    letterSpacing: 1.2,
     color: COLORS.textMuted,
-    marginBottom: 6,
+    marginBottom: 8,
   },
 
-  clientName: {
-    fontSize: 10.5,
+  cardMainText: {
+    fontSize: 11,
     fontWeight: "bold",
-    color: COLORS.accent,
+    color: COLORS.dark,
     marginBottom: 4,
   },
 
-  addressText: {
-    fontSize: 9,
-    marginBottom: 1,
+  cardSubText: {
+    fontSize: 8.5,
+    color: COLORS.text,
+    lineHeight: 1.4,
   },
 
-  vehicleText: {
-    fontSize: 9,
-    marginBottom: 2,
+  vehicleInfo: {
+    flexDirection: "row",
+    gap: 12,
+    marginTop: 4,
   },
 
-  vehicleHighlight: {
+  vehicleBadge: {
+    backgroundColor: COLORS.white,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+
+  vehicleBadgeText: {
+    fontSize: 8,
     fontWeight: "bold",
-    color: COLORS.accent,
+    color: COLORS.primary,
   },
 
-  /* ---------- TABLE ---------- */
-
-  tableContainer: {
-    marginTop: 6,
-    marginBottom: 14,
+  tableSection: {
+    marginBottom: 16,
   },
 
   tableHeader: {
     flexDirection: "row",
-    backgroundColor: COLORS.tableHeaderBg,
-    paddingVertical: 6,
-    paddingHorizontal: 4,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.accent,
+    backgroundColor: COLORS.primary,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+  },
+
+  th: {
+    fontSize: 7.5,
+    fontWeight: "bold",
+    color: COLORS.white,
+    textTransform: "uppercase",
+    letterSpacing: 0.8,
+  },
+
+  tableBody: {
+    borderWidth: 1,
+    borderTopWidth: 0,
+    borderColor: COLORS.border,
+    borderRadius: 6,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    overflow: "hidden",
   },
 
   tableRow: {
     flexDirection: "row",
-    paddingVertical: 6,
-    paddingHorizontal: 4,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
   },
 
-  th: {
-    fontSize: 8,
-    fontWeight: "bold",
-    color: COLORS.accent,
-    textTransform: "uppercase",
+  tableRowAlt: {
+    backgroundColor: COLORS.background,
+  },
+
+  tableRowLast: {
+    borderBottomWidth: 0,
   },
 
   td: {
-    fontSize: 9,
+    fontSize: 8.5,
+    color: COLORS.text,
   },
 
-  colDesc: { width: "50%" },
+  tdBold: {
+    fontWeight: "bold",
+    color: COLORS.dark,
+  },
+
+  colDesc: { width: "46%" },
   colQty: { width: "10%", textAlign: "center" },
-  colPrice: { width: "15%", textAlign: "right" },
-  colVat: { width: "10%", textAlign: "right" },
-  colTotal: { width: "15%", textAlign: "right" },
+  colPrice: { width: "16%", textAlign: "right" },
+  colVat: { width: "12%", textAlign: "right" },
+  colTotal: { width: "16%", textAlign: "right" },
 
-  /* ---------- TOTALS ---------- */
+  overflowRow: {
+    flexDirection: "row",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: COLORS.background,
+    justifyContent: "center",
+  },
 
-  totalsSection: {
+  overflowText: {
+    fontSize: 8,
+    color: COLORS.textLight,
+    fontWeight: "bold",
+  },
+
+  totalsWrapper: {
     flexDirection: "row",
     justifyContent: "flex-end",
+    marginBottom: 16,
   },
 
-  totalsContainer: {
-    width: "45%",
-    padding: 12,
+  totalsCard: {
+    width: "42%",
+    borderRadius: 8,
+    overflow: "hidden",
     borderWidth: 1,
-    borderColor: COLORS.accent,
-    borderRadius: 6,
-    backgroundColor: "#FAFAFA",
+    borderColor: COLORS.border,
   },
 
   totalRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 4,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    backgroundColor: COLORS.white,
+  },
+
+  totalRowAlt: {
+    backgroundColor: COLORS.background,
   },
 
   totalLabel: {
     fontSize: 9,
-    color: COLORS.textMuted,
+    color: COLORS.textLight,
   },
 
   totalValue: {
     fontSize: 9,
     fontWeight: "bold",
+    color: COLORS.text,
   },
 
-  finalTotalRow: {
+  grandTotalRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    borderTopWidth: 1,
-    borderTopColor: COLORS.accent,
-    paddingTop: 8,
-    marginTop: 6,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    backgroundColor: COLORS.primary,
   },
 
-  finalTotalLabel: {
+  grandTotalLabel: {
     fontSize: 10,
     fontWeight: "bold",
-    color: COLORS.accent,
+    color: COLORS.white,
     textTransform: "uppercase",
+    letterSpacing: 1,
   },
 
-  finalTotalValue: {
-    fontSize: 12,
+  grandTotalValue: {
+    fontSize: 14,
     fontWeight: "bold",
-    color: COLORS.accent,
+    color: COLORS.white,
   },
 
-  /* ---------- NOTES ---------- */
+  paymentSection: {
+    flexDirection: "row",
+    gap: 16,
+    marginBottom: 14,
+  },
 
-  notesContainer: {
-    marginTop: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: COLORS.border,
+  paymentCard: {
+    flex: 1,
+    padding: 12,
+    backgroundColor: COLORS.background,
     borderRadius: 6,
-    backgroundColor: "#FFFFFF",
+  },
+
+  paymentTitle: {
+    fontSize: 8,
+    fontWeight: "bold",
+    color: COLORS.primary,
+    marginBottom: 6,
+    textTransform: "uppercase",
+    letterSpacing: 0.8,
+  },
+
+  paymentText: {
+    fontSize: 8,
+    color: COLORS.text,
+    lineHeight: 1.5,
+  },
+
+  paymentHighlight: {
+    fontWeight: "bold",
+    color: COLORS.dark,
+  },
+
+  notesSection: {
+    padding: 12,
+    backgroundColor: COLORS.background,
+    borderRadius: 6,
+    borderLeftWidth: 3,
+    borderLeftColor: COLORS.border,
+    marginBottom: 14,
+  },
+
+  notesTitle: {
+    fontSize: 8,
+    fontWeight: "bold",
+    color: COLORS.text,
+    marginBottom: 4,
+    textTransform: "uppercase",
+    letterSpacing: 0.8,
   },
 
   notesText: {
-    fontSize: 8.5,
-    color: COLORS.textMuted,
+    fontSize: 8,
+    color: COLORS.text,
+    lineHeight: 1.5,
+  },
+
+  footer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingVertical: 12,
+    paddingHorizontal: 40,
+    backgroundColor: COLORS.dark,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  footerLeft: {
+    flex: 1,
+  },
+
+  footerText: {
+    fontSize: 7,
+    color: "rgba(255,255,255,0.7)",
     lineHeight: 1.4,
   },
 
-  /* ---------- FOOTER ---------- */
-
-  footerContainer: {
-    position: "absolute",
-    bottom: 18,
-    left: 32,
-    right: 32,
-    paddingTop: 10,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.border,
-  },
-
-  footerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    gap: 12,
+  footerRight: {
+    alignItems: "flex-end",
   },
 
   pageNumber: {
     fontSize: 8,
-    color: COLORS.textMuted,
-    textAlign: "right",
-  },
-
-  bankTitle: {
-    fontSize: 9,
+    color: COLORS.white,
     fontWeight: "bold",
-    color: COLORS.accent,
-    marginBottom: 4,
   },
 
-  bankText: {
-    fontSize: 9,
-    color: COLORS.textMuted,
-  },
-
-  legalText: {
-    textAlign: "center",
-    fontSize: 7.5,
-    color: "#9CA3AF",
-    marginTop: 6,
+  footerBrand: {
+    fontSize: 7,
+    color: "rgba(255,255,255,0.5)",
+    marginTop: 2,
   },
 });
 
@@ -396,10 +514,10 @@ interface InvoicePDFProps {
 export const InvoicePDF = ({ invoice, companySettings }: InvoicePDFProps) => {
   const company = { ...defaultCompany, ...companySettings };
 
-  const companyLine2 = joinNonEmpty([
-    isNonEmptyString(company.postalCode) ? company.postalCode : null,
-    isNonEmptyString(company.city) ? company.city : null,
-    isNonEmptyString(company.country) ? company.country : null,
+  const companyFullAddress = joinNonEmptyWith(", ", [
+    company.addressLine1,
+    company.addressLine2,
+    joinNonEmpty([company.postalCode, company.city]),
   ]);
 
   const customerName =
@@ -409,248 +527,265 @@ export const InvoicePDF = ({ invoice, companySettings }: InvoicePDFProps) => {
       invoice.customer.lastName ?? null,
     ]);
 
-  const customerLine2 = joinNonEmpty([
-    isNonEmptyString(invoice.customer.postalCode)
-      ? invoice.customer.postalCode
-      : null,
-    isNonEmptyString(invoice.customer.city) ? invoice.customer.city : null,
-    isNonEmptyString(invoice.customer.country)
-      ? invoice.customer.country
-      : null,
+  const customerAddress = joinNonEmptyWith(", ", [
+    invoice.customer.addressLine1,
+    invoice.customer.addressLine2,
+    joinNonEmpty([invoice.customer.postalCode, invoice.customer.city]),
   ]);
 
-  const paymentNotes =
-    (isNonEmptyString(company.invoiceFooter) && company.invoiceFooter.trim()) ||
-    "Conditions de paiement : Paiement à réception. Aucun escompte pour paiement anticipé.";
-
-  // Contrainte 1 page: on limite la longueur des notes et le nombre de lignes affichées.
-  const notesText = truncate(paymentNotes, 260);
-
-  const MAX_ITEMS = 10;
+  const MAX_ITEMS = 8;
   const visibleItems = invoice.items.slice(0, MAX_ITEMS);
   const hiddenItemsCount = Math.max(0, invoice.items.length - MAX_ITEMS);
 
-  const legalLine = joinNonEmptyWith(" — ", [
+  const legalLine = joinNonEmptyWith(" • ", [
     company.name,
     company.legalStatus,
-    isNonEmptyString(company.capital) ? `Capital ${company.capital}` : null,
-    isNonEmptyString(company.siret) ? `SIRET ${company.siret}` : null,
-    isNonEmptyString(company.vatNumber) ? `TVA ${company.vatNumber}` : null,
+    isNonEmptyString(company.siret) ? `SIRET: ${company.siret}` : null,
+    isNonEmptyString(company.vatNumber) ? `TVA: ${company.vatNumber}` : null,
   ]);
 
   return (
     <Document>
       <Page size="A4" style={styles.page} wrap={false}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <View style={styles.logoBlock}>
-            {isNonEmptyString(company.logoUrl) ? (
-              <>
+        {/* HERO HEADER */}
+        <View style={styles.heroHeader}>
+          <View style={styles.heroContent}>
+            <View style={styles.companySection}>
+              {isNonEmptyString(company.logoUrl) ? (
                 <Image
                   src={company.logoUrl}
-                  style={{ width: 120, height: 50 }}
+                  style={{ width: 140, height: 45, marginBottom: 8 }}
                 />
-                <Text style={[styles.companyAddress, { marginTop: 6 }]}>
-                  {company.name}
-                </Text>
-              </>
-            ) : (
-              <Text style={styles.companyName}>{company.name}</Text>
-            )}
-
-            {isNonEmptyString(company.addressLine1) && (
-              <Text style={styles.companyAddress}>{company.addressLine1}</Text>
-            )}
-            {isNonEmptyString(company.addressLine2) && (
-              <Text style={styles.companyAddress}>{company.addressLine2}</Text>
-            )}
-            {isNonEmptyString(companyLine2) && (
-              <Text style={styles.companyAddress}>{companyLine2}</Text>
-            )}
-
-            {isNonEmptyString(company.email) ||
-            isNonEmptyString(company.phone) ? (
-              <Text style={styles.companyAddress}>
-                {joinNonEmptyWith(" • ", [
-                  company.email ?? null,
-                  company.phone ?? null,
-                ])}
+              ) : (
+                <Text style={styles.companyName}>{company.name}</Text>
+              )}
+              <Text style={styles.companyDetails}>
+                {companyFullAddress}
+                {"\n"}
+                {joinNonEmptyWith(" • ", [company.phone, company.email])}
               </Text>
-            ) : null}
-            {isNonEmptyString(company.website) && (
-              <Text style={styles.companyAddress}>{company.website}</Text>
-            )}
-          </View>
+            </View>
 
-          <View style={styles.invoiceMetaBlock}>
-            <Text style={styles.invoiceTitle}>Facture</Text>
-            <Text style={styles.invoiceNumber}>N° {invoice.invoiceNumber}</Text>
-            <View style={styles.dateRow}>
-              <Text style={styles.dateLabel}>Date :</Text>
-              <Text style={styles.dateValue}>
+            <View style={styles.invoiceBadge}>
+              <Text style={styles.invoiceLabel}>Facture</Text>
+              <Text style={styles.invoiceNumber}>{invoice.invoiceNumber}</Text>
+              <Text style={styles.invoiceDate}>
                 {formatDate(invoice.issuedAt)}
               </Text>
             </View>
-            <View style={styles.dateRow}>
-              <Text style={styles.dateLabel}>Échéance :</Text>
-              <Text style={styles.dateValue}>{formatDate(invoice.dueAt)}</Text>
-            </View>
           </View>
         </View>
 
-        {/* CLIENT / VEHICLE */}
-        <View style={styles.grid}>
-          <View style={[styles.column, styles.infoCard]}>
-            <Text style={styles.sectionLabel}>Destinataire</Text>
-            <Text style={styles.clientName}>{customerName || "Client"}</Text>
-            {isNonEmptyString(invoice.customer.addressLine1) && (
-              <Text style={styles.addressText}>
-                {invoice.customer.addressLine1}
-              </Text>
-            )}
-            {isNonEmptyString(invoice.customer.addressLine2) && (
-              <Text style={styles.addressText}>
-                {invoice.customer.addressLine2}
-              </Text>
-            )}
-            {isNonEmptyString(customerLine2) && (
-              <Text style={styles.addressText}>{customerLine2}</Text>
-            )}
+        {/* STATUS RIBBON */}
+        <View style={styles.statusRibbon}>
+          <View style={styles.statusItem}>
+            <Text style={styles.statusLabel}>Date d'émission:</Text>
+            <Text style={styles.statusValue}>
+              {formatDate(invoice.issuedAt)}
+            </Text>
           </View>
-
-          <View style={[styles.column, styles.infoCard]}>
-            <Text style={styles.sectionLabel}>Véhicule</Text>
-            {invoice.vehicle ? (
-              <>
-                <Text style={styles.vehicleText}>
-                  Modèle :{" "}
-                  <Text style={styles.vehicleHighlight}>
-                    {invoice.vehicle.make} {invoice.vehicle.model}
-                  </Text>
-                </Text>
-                <Text style={styles.vehicleText}>
-                  Immatriculation :{" "}
-                  <Text style={styles.vehicleHighlight}>
-                    {invoice.vehicle.registrationPlate}
-                  </Text>
-                </Text>
-              </>
-            ) : (
-              <Text style={styles.addressText}>Non spécifié</Text>
-            )}
+          <View style={styles.statusItem}>
+            <Text style={styles.statusLabel}>Échéance:</Text>
+            <Text style={styles.statusValue}>{formatDate(invoice.dueAt)}</Text>
           </View>
-        </View>
-
-        {/* TABLE */}
-        <View style={styles.tableContainer}>
-          <View style={styles.tableHeader}>
-            <Text style={[styles.th, styles.colDesc]}>Description</Text>
-            <Text style={[styles.th, styles.colQty]}>Qté</Text>
-            <Text style={[styles.th, styles.colPrice]}>PU HT</Text>
-            <Text style={[styles.th, styles.colVat]}>TVA</Text>
-            <Text style={[styles.th, styles.colTotal]}>Total HT</Text>
-          </View>
-
-          {invoice.items.map((item, i) => (
-            <View
-              key={item.id}
+          <View style={styles.statusItem}>
+            <Text style={styles.statusLabel}>Statut:</Text>
+            <Text
               style={[
-                styles.tableRow,
-                i % 2 === 0 ? { backgroundColor: COLORS.rowAlt } : {},
+                styles.statusValue,
+                {
+                  color:
+                    invoice.status === "PAID" ? COLORS.success : COLORS.warning,
+                },
               ]}
             >
-              <Text style={[styles.td, styles.colDesc]}>
-                {truncate(item.description, 90)}
-              </Text>
-              <Text style={[styles.td, styles.colQty]}>
-                {Number(item.quantity)}
-              </Text>
-              <Text style={[styles.td, styles.colPrice]}>
-                {formatCurrency(item.unitPriceHt)}
-              </Text>
-              <Text style={[styles.td, styles.colVat]}>
-                {Number(item.vatRate).toFixed(0)}%
-              </Text>
-              <Text style={[styles.td, styles.colTotal]}>
-                {formatCurrency(item.lineTotalHt)}
-              </Text>
-            </View>
-          ))}
-
-          {hiddenItemsCount > 0 && (
-            <View style={styles.tableRow}>
-              <Text style={[styles.td, styles.colDesc]}>
-                {`+ ${hiddenItemsCount} ligne(s) supplémentaire(s) non affichée(s)`}
-              </Text>
-              <Text style={[styles.td, styles.colQty]}>{""}</Text>
-              <Text style={[styles.td, styles.colPrice]}>{""}</Text>
-              <Text style={[styles.td, styles.colVat]}>{""}</Text>
-              <Text style={[styles.td, styles.colTotal]}>{""}</Text>
-            </View>
-          )}
-        </View>
-
-        {/* TOTALS */}
-        <View style={styles.totalsSection}>
-          <View style={styles.totalsContainer}>
-            <View style={styles.totalRow}>
-              <Text style={styles.totalLabel}>Total HT</Text>
-              <Text style={styles.totalValue}>
-                {formatCurrency(invoice.subtotalHt)}
-              </Text>
-            </View>
-            <View style={styles.totalRow}>
-              <Text style={styles.totalLabel}>TVA</Text>
-              <Text style={styles.totalValue}>
-                {formatCurrency(invoice.vatTotal)}
-              </Text>
-            </View>
-            <View style={styles.finalTotalRow}>
-              <Text style={styles.finalTotalLabel}>Net à payer</Text>
-              <Text style={styles.finalTotalValue}>
-                {formatCurrency(invoice.totalTtc)}
-              </Text>
-            </View>
+              {invoice.status === "PAID"
+                ? "Payée"
+                : invoice.status === "ISSUED"
+                ? "Émise"
+                : invoice.status === "DRAFT"
+                ? "Brouillon"
+                : invoice.status === "CANCELED"
+                ? "Annulée"
+                : invoice.status}
+            </Text>
           </View>
         </View>
 
-        {/* NOTES / CONDITIONS */}
-        <View style={styles.notesContainer}>
-          <Text style={styles.sectionLabel}>Conditions / Notes</Text>
-          <Text style={styles.notesText}>
-            {notesText}
-            {hiddenItemsCount > 0
-              ? `\nDétail complet : ${hiddenItemsCount} ligne(s) supplémentaire(s) disponible(s) dans l'application.`
-              : ""}
-          </Text>
+        {/* CONTENT AREA */}
+        <View style={styles.contentArea}>
+          {/* INFO CARDS */}
+          <View style={styles.infoGrid}>
+            <View style={styles.infoCard}>
+              <Text style={styles.cardTitle}>Facturé à</Text>
+              <Text style={styles.cardMainText}>
+                {customerName || "Client"}
+              </Text>
+              <Text style={styles.cardSubText}>
+                {customerAddress || "Adresse non renseignée"}
+              </Text>
+              {isNonEmptyString(invoice.customer.email) && (
+                <Text style={[styles.cardSubText, { marginTop: 4 }]}>
+                  {invoice.customer.email}
+                </Text>
+              )}
+            </View>
+
+            <View style={[styles.infoCard, styles.infoCardAlt]}>
+              <Text style={styles.cardTitle}>Véhicule concerné</Text>
+              {invoice.vehicle ? (
+                <>
+                  <Text style={styles.cardMainText}>
+                    {invoice.vehicle.make} {invoice.vehicle.model}
+                  </Text>
+                  <View style={styles.vehicleInfo}>
+                    <View style={styles.vehicleBadge}>
+                      <Text style={styles.vehicleBadgeText}>
+                        {invoice.vehicle.registrationPlate}
+                      </Text>
+                    </View>
+                    {invoice.vehicle.year && (
+                      <View style={styles.vehicleBadge}>
+                        <Text style={styles.vehicleBadgeText}>
+                          {invoice.vehicle.year}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                </>
+              ) : (
+                <Text style={styles.cardSubText}>Aucun véhicule associé</Text>
+              )}
+            </View>
+          </View>
+
+          {/* TABLE */}
+          <View style={styles.tableSection}>
+            <View style={styles.tableHeader}>
+              <Text style={[styles.th, styles.colDesc]}>Description</Text>
+              <Text style={[styles.th, styles.colQty]}>Qté</Text>
+              <Text style={[styles.th, styles.colPrice]}>Prix Unit.</Text>
+              <Text style={[styles.th, styles.colVat]}>TVA</Text>
+              <Text style={[styles.th, styles.colTotal]}>Total HT</Text>
+            </View>
+
+            <View style={styles.tableBody}>
+              {visibleItems.map((item, i) => (
+                <View
+                  key={item.id}
+                  style={[
+                    styles.tableRow,
+                    i % 2 === 1 ? styles.tableRowAlt : {},
+                    i === visibleItems.length - 1 && hiddenItemsCount === 0
+                      ? styles.tableRowLast
+                      : {},
+                  ]}
+                >
+                  <Text style={[styles.td, styles.colDesc]}>
+                    {truncate(item.description, 70)}
+                  </Text>
+                  <Text style={[styles.td, styles.tdBold, styles.colQty]}>
+                    {Number(item.quantity)}
+                  </Text>
+                  <Text style={[styles.td, styles.colPrice]}>
+                    {formatCurrency(item.unitPriceHt)}
+                  </Text>
+                  <Text style={[styles.td, styles.colVat]}>
+                    {Number(item.vatRate).toFixed(0)}%
+                  </Text>
+                  <Text style={[styles.td, styles.tdBold, styles.colTotal]}>
+                    {formatCurrency(item.lineTotalHt)}
+                  </Text>
+                </View>
+              ))}
+
+              {hiddenItemsCount > 0 && (
+                <View style={styles.overflowRow}>
+                  <Text style={styles.overflowText}>
+                    + {hiddenItemsCount} article(s) supplémentaire(s) - voir
+                    détail complet
+                  </Text>
+                </View>
+              )}
+            </View>
+          </View>
+
+          {/* TOTALS */}
+          <View style={styles.totalsWrapper}>
+            <View style={styles.totalsCard}>
+              <View style={styles.totalRow}>
+                <Text style={styles.totalLabel}>Sous-total HT</Text>
+                <Text style={styles.totalValue}>
+                  {formatCurrency(invoice.subtotalHt)}
+                </Text>
+              </View>
+              <View style={[styles.totalRow, styles.totalRowAlt]}>
+                <Text style={styles.totalLabel}>TVA</Text>
+                <Text style={styles.totalValue}>
+                  {formatCurrency(invoice.vatTotal)}
+                </Text>
+              </View>
+              <View style={styles.grandTotalRow}>
+                <Text style={styles.grandTotalLabel}>Total TTC</Text>
+                <Text style={styles.grandTotalValue}>
+                  {formatCurrency(invoice.totalTtc)}
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          {/* PAYMENT INFO */}
+          <View style={styles.paymentSection}>
+            {(isNonEmptyString(company.iban) ||
+              isNonEmptyString(company.bic)) && (
+              <View style={styles.paymentCard}>
+                <Text style={styles.paymentTitle}>Coordonnées bancaires</Text>
+                {isNonEmptyString(company.iban) && (
+                  <Text style={styles.paymentText}>
+                    <Text style={styles.paymentHighlight}>IBAN:</Text>{" "}
+                    {company.iban}
+                  </Text>
+                )}
+                {isNonEmptyString(company.bic) && (
+                  <Text style={styles.paymentText}>
+                    <Text style={styles.paymentHighlight}>BIC:</Text>{" "}
+                    {company.bic}
+                  </Text>
+                )}
+              </View>
+            )}
+
+            <View style={styles.paymentCard}>
+              <Text style={styles.paymentTitle}>Échéance de paiement</Text>
+              <Text style={styles.paymentText}>
+                Date limite:{" "}
+                <Text style={styles.paymentHighlight}>
+                  {formatDate(invoice.dueAt)}
+                </Text>
+              </Text>
+              <Text style={styles.paymentText}>
+                Montant dû:{" "}
+                <Text style={styles.paymentHighlight}>
+                  {formatCurrency(invoice.totalTtc)}
+                </Text>
+              </Text>
+            </View>
+          </View>
         </View>
 
         {/* FOOTER */}
-        <View style={styles.footerContainer} fixed>
-          <View style={styles.footerRow}>
-            <View style={{ flex: 1 }}>
-              {isNonEmptyString(company.iban) &&
-              isNonEmptyString(company.bic) ? (
-                <>
-                  <Text style={styles.bankTitle}>Coordonnées bancaires</Text>
-                  <Text style={styles.bankText}>IBAN : {company.iban}</Text>
-                  <Text style={styles.bankText}>BIC : {company.bic}</Text>
-                </>
-              ) : null}
-              {isNonEmptyString(legalLine) && (
-                <Text style={styles.legalText}>{legalLine}</Text>
-              )}
-              <Text style={styles.legalText}>
-                Document généré automatiquement – valable sans signature
-              </Text>
-            </View>
+        <View style={styles.footer} fixed>
+          <View style={styles.footerLeft}>
+            <Text style={styles.footerText}>{legalLine}</Text>
+          </View>
+          <View style={styles.footerRight}>
             <Text
               style={styles.pageNumber}
               render={({ pageNumber, totalPages }) =>
-                `Page ${pageNumber} / ${totalPages}`
+                `${pageNumber}/${totalPages}`
               }
-              fixed
             />
+            <Text style={styles.footerBrand}>Généré automatiquement</Text>
           </View>
         </View>
       </Page>

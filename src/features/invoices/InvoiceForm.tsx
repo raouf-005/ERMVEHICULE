@@ -334,8 +334,8 @@ export function InvoiceForm({
                     <TableCell>
                       <Input
                         type="number"
-                        step="0.01"
-                        min="0"
+                        step="1"
+                        min="1"
                         className="h-8 w-full text-right text-xs"
                         {...register(`items.${idx}.quantity`)}
                       />
