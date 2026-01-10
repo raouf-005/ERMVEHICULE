@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "lo"
+  url      = env("DATABASE_URL")
 }
 
 enum DocumentStatus {
@@ -55,6 +55,10 @@ model Customer {
   postalCode   String?
   city         String?
   country      String?      @default("FR")
+  
+  // Professional details
+  siret        String?
+  vatNumber    String?
 
   vehicles     Vehicle[]
   quotes       Quote[]
@@ -260,8 +264,7 @@ model Invoice {
   quoteId String? @unique
   quote   Quote?  @relation(fields: [quoteId], references: [id], onDelete: SetNull)
 
-  repairOrderId String? @unique
-  repairOrder   RepairOrder? @relation(fields: [repairOrderId], references: [id], onDelete: SetNull)
+  repairOrder RepairOrder?
 
   issuedAt DateTime?
   dueAt    DateTime?
@@ -307,4 +310,25 @@ model InvoiceItem {
 
   @@index([invoiceId])
   @@index([partId])
+}
+
+model CompanySettings {
+  id              String   @id @default(cuid())
+  name            String
+  legalStatus     String?  @default("SAS")
+  capital         String?  @default("1000 €")
+  siret           String?
+  vatNumber       String?
+  addressLine1    String?
+  addressLine2    String?
+  postalCode      String?
+  city            String?
+  country         String?  @default("FR")
+  email           String?
+  phone           String?
+  website         String?
+  logoUrl         String?
+  invoiceFooter   String?
+
+  updatedAt       DateTime @updatedAt
 }
