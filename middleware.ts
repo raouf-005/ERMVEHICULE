@@ -1,6 +1,9 @@
 import { auth } from "@/src/auth";
 import { NextResponse } from "next/server";
 
+// Force Node.js runtime instead of Edge
+export const runtime = "nodejs";
+
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const isLoginPage = req.nextUrl.pathname === "/login";

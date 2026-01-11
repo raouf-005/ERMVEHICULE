@@ -6,8 +6,8 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const vehicleSchema = z.object({
-  licensePlate: z.string().min(1, "Immatriculation requise"),
-  brand: z.string().min(1, "Marque requise"),
+  registrationPlate: z.string().min(1, "Immatriculation requise"),
+  make: z.string().min(1, "Marque requise"),
   model: z.string().min(1, "Modèle requis"),
   vin: z.string().optional(),
   year: z.coerce.number().optional(),
@@ -17,8 +17,8 @@ const vehicleSchema = z.object({
 
 export async function createVehicleAction(formData: FormData) {
   const data = {
-    licensePlate: formData.get("licensePlate") as string,
-    brand: formData.get("brand") as string,
+    registrationPlate: formData.get("licensePlate") as string,
+    make: formData.get("brand") as string,
     model: formData.get("model") as string,
     vin: formData.get("vin") as string,
     year: formData.get("year"),
