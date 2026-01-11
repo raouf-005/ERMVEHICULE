@@ -81,7 +81,10 @@ export default async function EditInvoicePage({ params }: PageProps) {
 
   const customersData = customers.map((c) => ({
     id: c.id,
-    label: c.companyName || `${c.firstName} ${c.lastName}`,
+    label:
+      c.companyName ||
+      `${c.firstName || ""} ${c.lastName || ""}`.trim() ||
+      "Client sans nom",
   }));
 
   const vehiclesData = vehicles.map((v) => ({

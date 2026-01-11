@@ -4,8 +4,17 @@ import { createInvoiceAction } from "./actions";
 
 export default async function NewInvoicePage() {
   const parts = await prisma.part.findMany();
-  const customers = await prisma.customer.findMany();
+  const customersRaw = await prisma.customer.findMany();
   const vehicles = await prisma.vehicle.findMany();
+
+  // Formater les clients avec un label lisible
+  const customers = customersRaw.map((c) => ({
+    id: c.id,
+    label:
+      c.companyName ||
+      `${c.firstName || ""} ${c.lastName || ""}`.trim() ||
+      "Client sans nom",
+  }));
 
   // Serialization helper
   const serialize = (data: any) => JSON.parse(JSON.stringify(data));
@@ -20,7 +29,7 @@ export default async function NewInvoicePage() {
       </div>
       <InvoiceForm
         parts={serialize(parts)}
-        customers={serialize(customers)}
+        customers={customers}
         vehicles={serialize(vehicles)}
         onSubmit={createInvoiceAction}
         defaultValues={{
