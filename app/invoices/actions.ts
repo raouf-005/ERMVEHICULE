@@ -8,6 +8,30 @@ import {
   InvoiceFormValues,
 } from "@/src/features/invoices/invoice.schema";
 import { InvoiceStatus, LineItemKind } from "@prisma/client";
+import { auth } from "@/src/auth";
+
+/**
+ * Check if user can access this invoice
+ */
+async function canAccessInvoice(
+  invoiceId: string,
+  userId: string,
+  role: string,
+  groupId: string | null
+): Promise<boolean> {
+  if (role === "ADMIN") return true;
+
+  const invoice = await prisma.invoice.findUnique({
+    where: { id: invoiceId },
+    select: { createdById: true, groupId: true },
+  });
+
+  if (!invoice) return false;
+  if (invoice.createdById === userId) return true;
+  if (groupId && invoice.groupId === groupId) return true;
+
+  return false;
+}
 
 /**
  * Update an existing invoice (header + items).
@@ -17,6 +41,20 @@ export async function updateInvoiceAction(
   invoiceId: string,
   data: InvoiceFormValues
 ) {
+  const session = await auth();
+
+  if (!session?.user) {
+    throw new Error("Non authentifié");
+  }
+
+  const { id: userId, role, groupId } = session.user;
+
+  // Check permission
+  const hasAccess = await canAccessInvoice(invoiceId, userId, role, groupId);
+  if (!hasAccess) {
+    throw new Error("Accès non autorisé à cette facture");
+  }
+
   const result = invoiceFormSchema.safeParse(data);
   if (!result.success) {
     throw new Error("Données invalides");
@@ -100,6 +138,20 @@ export async function updateInvoiceAction(
  * For ISSUED/PAID invoices, user should cancel first.
  */
 export async function deleteInvoiceAction(invoiceId: string) {
+  const session = await auth();
+
+  if (!session?.user) {
+    throw new Error("Non authentifié");
+  }
+
+  const { id: userId, role, groupId } = session.user;
+
+  // Check permission
+  const hasAccess = await canAccessInvoice(invoiceId, userId, role, groupId);
+  if (!hasAccess) {
+    throw new Error("Accès non autorisé à cette facture");
+  }
+
   const existing = await prisma.invoice.findUnique({
     where: { id: invoiceId },
     select: { status: true },
@@ -140,6 +192,20 @@ export async function deleteInvoiceAction(invoiceId: string) {
  * Duplicate an invoice (creates a new DRAFT with same content).
  */
 export async function duplicateInvoiceAction(invoiceId: string) {
+  const session = await auth();
+
+  if (!session?.user) {
+    throw new Error("Non authentifié");
+  }
+
+  const { id: userId, role, groupId } = session.user;
+
+  // Check permission
+  const hasAccess = await canAccessInvoice(invoiceId, userId, role, groupId);
+  if (!hasAccess) {
+    throw new Error("Accès non autorisé à cette facture");
+  }
+
   const original = await prisma.invoice.findUnique({
     where: { id: invoiceId },
     include: {
@@ -169,6 +235,8 @@ export async function duplicateInvoiceAction(invoiceId: string) {
       subtotalHt: original.subtotalHt,
       vatTotal: original.vatTotal,
       totalTtc: original.totalTtc,
+      createdById: userId, // New invoice belongs to current user
+      groupId: groupId || original.groupId, // Keep in same group or user's group
       items: {
         create: original.items.map((item, index) => ({
           kind: item.kind,
@@ -193,6 +261,20 @@ export async function duplicateInvoiceAction(invoiceId: string) {
  * Cancel an invoice (set status to CANCELED).
  */
 export async function cancelInvoiceAction(invoiceId: string) {
+  const session = await auth();
+
+  if (!session?.user) {
+    throw new Error("Non authentifié");
+  }
+
+  const { id: userId, role, groupId } = session.user;
+
+  // Check permission
+  const hasAccess = await canAccessInvoice(invoiceId, userId, role, groupId);
+  if (!hasAccess) {
+    throw new Error("Accès non autorisé à cette facture");
+  }
+
   await prisma.invoice.update({
     where: { id: invoiceId },
     data: {

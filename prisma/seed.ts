@@ -5,12 +5,79 @@ import {
   InvoiceStatus,
   RepairOrderStatus,
   LineItemKind,
+  UserRole,
 } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log("🌱 Seeding database...");
+
+  // Create Groups for collaborative work
+  const groupParis = await prisma.group.create({
+    data: {
+      name: "Équipe Paris",
+      description: "Équipe de gestion des factures pour la région Paris",
+    },
+  });
+
+  const groupLyon = await prisma.group.create({
+    data: {
+      name: "Équipe Lyon",
+      description: "Équipe de gestion des factures pour la région Lyon",
+    },
+  });
+
+  console.log("✅ Groups created:", groupParis.name, groupLyon.name);
+
+  // Create Admin user
+  const adminPassword = await bcrypt.hash("admin123", 10);
+  const admin = await prisma.user.create({
+    data: {
+      email: "admin@garage.fr",
+      password: adminPassword,
+      name: "Administrateur",
+      role: UserRole.ADMIN,
+    },
+  });
+
+  // Create users in Paris group
+  const userPassword = await bcrypt.hash("user123", 10);
+  const userParis1 = await prisma.user.create({
+    data: {
+      email: "jean@garage.fr",
+      password: userPassword,
+      name: "Jean Mécanicien",
+      role: UserRole.USER,
+      groupId: groupParis.id,
+    },
+  });
+
+  const userParis2 = await prisma.user.create({
+    data: {
+      email: "marie@garage.fr",
+      password: userPassword,
+      name: "Marie Comptable",
+      role: UserRole.USER,
+      groupId: groupParis.id,
+    },
+  });
+
+  // Create user in Lyon group
+  const userLyon = await prisma.user.create({
+    data: {
+      email: "pierre@garage.fr",
+      password: userPassword,
+      name: "Pierre Technicien",
+      role: UserRole.USER,
+      groupId: groupLyon.id,
+    },
+  });
+
+  console.log(
+    "✅ Users created: admin, jean (Paris), marie (Paris), pierre (Lyon)"
+  );
 
   // Create Suppliers
   const supplier1 = await prisma.supplier.create({

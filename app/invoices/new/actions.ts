@@ -7,8 +7,18 @@ import {
 } from "@/src/features/invoices/invoice.schema";
 import { redirect } from "next/navigation";
 import { InvoiceStatus, LineItemKind } from "@prisma/client";
+import { auth } from "@/src/auth";
 
 export async function createInvoiceAction(data: InvoiceFormValues) {
+  // Get current user session for group assignment
+  const session = await auth();
+
+  if (!session?.user) {
+    throw new Error("Non authentifié");
+  }
+
+  const { id: userId, groupId } = session.user;
+
   const result = invoiceFormSchema.safeParse(data);
 
   if (!result.success) {
@@ -46,7 +56,7 @@ export async function createInvoiceAction(data: InvoiceFormValues) {
 
   // Create Invoice Transaction (Create Invoice + Update Stock if needed)
   await prisma.$transaction(async (tx) => {
-    // 1. Create Invoice
+    // 1. Create Invoice with user and group association
     await tx.invoice.create({
       data: {
         invoiceNumber,
@@ -58,6 +68,8 @@ export async function createInvoiceAction(data: InvoiceFormValues) {
         vatTotal,
         totalTtc,
         notes,
+        createdById: userId, // Associate with creating user
+        groupId: groupId || null, // Associate with user's group for collaborative access
         items: {
           create: itemsData,
         },

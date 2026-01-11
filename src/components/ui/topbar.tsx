@@ -12,6 +12,7 @@ import {
   ChevronLeft,
   LogOut,
   UserCog,
+  UsersRound,
 } from "lucide-react";
 import { Button } from "./button";
 
@@ -109,16 +110,14 @@ export function Topbar() {
               );
             })}
 
-            {/* Bouton Gestion Utilisateurs (Admin seulement) */}
+            {/* Admin: Gestion Utilisateurs (Admin seulement) */}
             {isAdmin && (
               <Button
-                variant={
-                  pathname.startsWith("/admin/users") ? "default" : "ghost"
-                }
+                variant={pathname === "/admin/users" ? "default" : "ghost"}
                 size="sm"
                 asChild
                 className={
-                  pathname.startsWith("/admin/users")
+                  pathname === "/admin/users"
                     ? "bg-purple-600 hover:bg-purple-700"
                     : ""
                 }
@@ -126,6 +125,25 @@ export function Topbar() {
                 <Link href="/admin/users" className="flex items-center gap-2">
                   <UserCog className="h-4 w-4" />
                   <span className="hidden md:inline">Utilisateurs</span>
+                </Link>
+              </Button>
+            )}
+
+            {/* Admin: Gestion Groupes (Admin seulement) */}
+            {isAdmin && (
+              <Button
+                variant={pathname === "/admin/groups" ? "default" : "ghost"}
+                size="sm"
+                asChild
+                className={
+                  pathname === "/admin/groups"
+                    ? "bg-purple-600 hover:bg-purple-700"
+                    : ""
+                }
+              >
+                <Link href="/admin/groups" className="flex items-center gap-2">
+                  <UsersRound className="h-4 w-4" />
+                  <span className="hidden md:inline">Groupes</span>
                 </Link>
               </Button>
             )}

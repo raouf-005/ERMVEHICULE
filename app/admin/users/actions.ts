@@ -13,9 +13,47 @@ export async function getUsers() {
       name: true,
       role: true,
       createdAt: true,
+      groupId: true,
+      group: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
     orderBy: { createdAt: "desc" },
   });
+}
+
+export async function getGroups() {
+  return await prisma.group.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+    orderBy: { name: "asc" },
+  });
+}
+
+export async function assignUserToGroup(
+  userId: string,
+  groupId: string | null
+) {
+  const session = await auth();
+
+  if (!session || session.user.role !== "ADMIN") {
+    throw new Error(
+      "Non autorisé - Seul l'administrateur peut assigner les groupes"
+    );
+  }
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { groupId: groupId || null },
+  });
+
+  revalidatePath("/admin/users");
+  revalidatePath("/admin/groups");
 }
 
 export async function createUser(formData: FormData) {

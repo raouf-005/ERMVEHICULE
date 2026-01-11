@@ -24,10 +24,43 @@ model User {
   name      String
   role      UserRole @default(USER)
   
+  // Group membership for collaborative invoice management
+  groupId   String?
+  group     Group?   @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  
+  // Invoices created by this user
+  invoicesCreated Invoice[] @relation("InvoiceCreator")
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([email])
+  @@index([groupId])
+}
+
+// ============ GROUPS FOR COLLABORATIVE WORK ============
+
+model Group {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  
+  // Members of this group
+  members     User[]
+  
+  // Invoices accessible by this group
+  invoices    Invoice[] @relation("GroupInvoices")
+  
+  // Customers accessible by this group
+  customers   Customer[] @relation("GroupCustomers")
+  
+  // Vehicles accessible by this group
+  vehicles    Vehicle[] @relation("GroupVehicles")
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([name])
 }
 
 // ============ BUSINESS MODELS ============
@@ -81,6 +114,10 @@ model Customer {
   // Professional details
   siret        String?
   vatNumber    String?
+  
+  // Group ownership for collaborative access
+  groupId      String?
+  group        Group?       @relation("GroupCustomers", fields: [groupId], references: [id], onDelete: SetNull)
 
   vehicles     Vehicle[]
   quotes       Quote[]
@@ -92,6 +129,7 @@ model Customer {
 
   @@index([email])
   @@index([phone])
+  @@index([groupId])
 }
 
 model Vehicle {
@@ -105,6 +143,10 @@ model Vehicle {
   model             String?
   year              Int?
   mileageKm         Int     @default(0)
+  
+  // Group ownership for collaborative access
+  groupId           String?
+  group             Group?  @relation("GroupVehicles", fields: [groupId], references: [id], onDelete: SetNull)
 
   quotes       Quote[]
   invoices     Invoice[]
@@ -115,6 +157,7 @@ model Vehicle {
 
   @@index([customerId])
   @@index([make, model])
+  @@index([groupId])
 }
 
 model Supplier {
@@ -287,6 +330,14 @@ model Invoice {
   quote   Quote?  @relation(fields: [quoteId], references: [id], onDelete: SetNull)
 
   repairOrder RepairOrder?
+  
+  // User who created this invoice
+  createdById String?
+  createdBy   User?   @relation("InvoiceCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  
+  // Group that can access/modify this invoice
+  groupId     String?
+  group       Group?  @relation("GroupInvoices", fields: [groupId], references: [id], onDelete: SetNull)
 
   issuedAt DateTime?
   dueAt    DateTime?
@@ -306,6 +357,8 @@ model Invoice {
   @@index([customerId])
   @@index([vehicleId])
   @@index([status])
+  @@index([createdById])
+  @@index([groupId])
 }
 
 model InvoiceItem {
