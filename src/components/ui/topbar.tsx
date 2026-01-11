@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 import {
   LayoutDashboard,
   Users,
@@ -9,6 +10,8 @@ import {
   FileText,
   Settings,
   ChevronLeft,
+  LogOut,
+  UserCog,
 } from "lucide-react";
 import { Button } from "./button";
 
@@ -22,6 +25,8 @@ const navItems = [
 
 export function Topbar() {
   const pathname = usePathname();
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.role === "ADMIN";
 
   // Déterminer si on est sur une page détail (avec un ID ou /new)
   const isDetailPage =
@@ -103,6 +108,38 @@ export function Topbar() {
                 </Button>
               );
             })}
+
+            {/* Bouton Gestion Utilisateurs (Admin seulement) */}
+            {isAdmin && (
+              <Button
+                variant={
+                  pathname.startsWith("/admin/users") ? "default" : "ghost"
+                }
+                size="sm"
+                asChild
+                className={
+                  pathname.startsWith("/admin/users")
+                    ? "bg-purple-600 hover:bg-purple-700"
+                    : ""
+                }
+              >
+                <Link href="/admin/users" className="flex items-center gap-2">
+                  <UserCog className="h-4 w-4" />
+                  <span className="hidden md:inline">Utilisateurs</span>
+                </Link>
+              </Button>
+            )}
+
+            {/* Bouton Déconnexion */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => signOut({ callbackUrl: "/login" })}
+              className="text-red-600 hover:text-red-700 hover:bg-red-50"
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="hidden md:inline ml-2">Déconnexion</span>
+            </Button>
           </nav>
         </div>
       </div>
