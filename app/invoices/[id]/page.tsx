@@ -42,11 +42,11 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
-export default async function InvoiceDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function InvoiceDetailPage({ params }: PageProps) {
   const { id } = await params; // Next.js 15 requires awaiting params
 
   const [invoice, companySettings] = await Promise.all([
