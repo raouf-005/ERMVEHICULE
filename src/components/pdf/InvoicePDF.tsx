@@ -19,7 +19,7 @@ import {
 
 /* ===================== TYPES ===================== */
 
-type InvoiceWithRelations = Invoice & {
+export type InvoiceWithRelations = Invoice & {
   customer: Customer;
   items: InvoiceItem[];
   vehicle?: Vehicle | null;
@@ -579,7 +579,7 @@ export const InvoicePDF = ({ invoice, companySettings }: InvoicePDFProps) => {
         {/* STATUS RIBBON */}
         <View style={styles.statusRibbon}>
           <View style={styles.statusItem}>
-            <Text style={styles.statusLabel}>Date d'émission:</Text>
+            <Text style={styles.statusLabel}>Date d&apos;émission:</Text>
             <Text style={styles.statusValue}>
               {formatDate(invoice.issuedAt)}
             </Text>

@@ -181,7 +181,7 @@ export default async function DashboardPage() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Tableau de Bord</h1>
           <p className="text-muted-foreground mt-1">
-            Vue d'ensemble de l'activité du garage
+            Vue d&apos;ensemble de l&apos;activité du garage
           </p>
         </div>
         <div className="flex gap-2">
@@ -198,7 +198,7 @@ export default async function DashboardPage() {
         <Card className="border-l-4 border-l-green-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Chiffre d'Affaires
+              Chiffre d&apos;Affaires
             </CardTitle>
             <Euro className="h-4 w-4 text-green-500" />
           </CardHeader>

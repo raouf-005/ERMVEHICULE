@@ -61,7 +61,7 @@ export function DashboardCharts({
       <div className="space-y-4">
         <Card>
           <CardHeader>
-            <CardTitle>Évolution du Chiffre d'Affaires</CardTitle>
+            <CardTitle>Évolution du Chiffre d&apos;Affaires</CardTitle>
           </CardHeader>
           <CardContent className="h-[300px] flex items-center justify-center">
             <div className="animate-pulse text-muted-foreground">
@@ -79,7 +79,7 @@ export function DashboardCharts({
       {monthlyRevenue && monthlyRevenue.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Évolution du Chiffre d'Affaires</CardTitle>
+            <CardTitle>Évolution du Chiffre d&apos;Affaires</CardTitle>
             <CardDescription>
               Revenus mensuels sur les 6 derniers mois
             </CardDescription>

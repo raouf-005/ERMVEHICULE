@@ -84,7 +84,7 @@ export default async function EditCustomerPage({ params }: PageProps) {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="companyName">Nom de l'entreprise</Label>
+              <Label htmlFor="companyName">Nom de l&apos;entreprise</Label>
               <Input
                 id="companyName"
                 name="companyName"

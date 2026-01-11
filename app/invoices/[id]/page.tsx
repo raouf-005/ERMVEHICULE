@@ -133,7 +133,9 @@ export default async function InvoiceDetailPage({ params }: PageProps) {
               <StatusBadge status={invoice.status} />
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Date d'émission:</span>
+              <span className="text-muted-foreground">
+                Date d&apos;émission:
+              </span>
               <span>
                 {invoice.issuedAt
                   ? new Date(invoice.issuedAt).toLocaleDateString()
@@ -141,7 +143,9 @@ export default async function InvoiceDetailPage({ params }: PageProps) {
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Date d'échéance:</span>
+              <span className="text-muted-foreground">
+                Date d&apos;échéance:
+              </span>
               <span>
                 {invoice.dueAt
                   ? new Date(invoice.dueAt).toLocaleDateString()

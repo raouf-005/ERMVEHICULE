@@ -11,9 +11,11 @@ import {
   CardDescription,
 } from "@/src/components/ui/card";
 import { Building2, MapPin, Receipt, FileImage } from "lucide-react";
+import { CompanySettings } from "@prisma/client";
 
 export default async function SettingsPage() {
-  const settings = (await prisma.companySettings.findFirst()) || {};
+  const settings: Partial<CompanySettings> =
+    (await prisma.companySettings.findFirst()) || {};
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -36,11 +38,11 @@ export default async function SettingsPage() {
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Nom de l'entreprise *</Label>
+                <Label htmlFor="name">Nom de l&apos;entreprise *</Label>
                 <Input
                   id="name"
                   name="name"
-                  defaultValue={(settings as any).name}
+                  defaultValue={settings.name ?? ""}
                   required
                   className="font-medium"
                 />
@@ -50,7 +52,7 @@ export default async function SettingsPage() {
                 <Input
                   id="legalStatus"
                   name="legalStatus"
-                  defaultValue={(settings as any).legalStatus}
+                  defaultValue={settings.legalStatus ?? ""}
                 />
               </div>
             </div>
@@ -59,7 +61,7 @@ export default async function SettingsPage() {
               <Input
                 id="capital"
                 name="capital"
-                defaultValue={(settings as any).capital}
+                defaultValue={settings.capital ?? ""}
                 placeholder="10 000 €"
               />
             </div>
@@ -80,7 +82,7 @@ export default async function SettingsPage() {
               <Input
                 id="addressLine1"
                 name="addressLine1"
-                defaultValue={(settings as any).addressLine1}
+                defaultValue={settings.addressLine1 ?? ""}
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -89,7 +91,7 @@ export default async function SettingsPage() {
                 <Input
                   id="postalCode"
                   name="postalCode"
-                  defaultValue={(settings as any).postalCode}
+                  defaultValue={settings.postalCode ?? ""}
                 />
               </div>
               <div className="space-y-2 md:col-span-2">
@@ -97,7 +99,7 @@ export default async function SettingsPage() {
                 <Input
                   id="city"
                   name="city"
-                  defaultValue={(settings as any).city}
+                  defaultValue={settings.city ?? ""}
                 />
               </div>
             </div>
@@ -108,7 +110,7 @@ export default async function SettingsPage() {
                   id="email"
                   name="email"
                   type="email"
-                  defaultValue={(settings as any).email}
+                  defaultValue={settings.email ?? ""}
                 />
               </div>
               <div className="space-y-2">
@@ -116,7 +118,7 @@ export default async function SettingsPage() {
                 <Input
                   id="phone"
                   name="phone"
-                  defaultValue={(settings as any).phone}
+                  defaultValue={settings.phone ?? ""}
                 />
               </div>
             </div>
@@ -127,7 +129,7 @@ export default async function SettingsPage() {
                 name="website"
                 type="url"
                 placeholder="https://www.mongarage.fr"
-                defaultValue={(settings as any).website}
+                defaultValue={settings.website ?? ""}
               />
             </div>
           </CardContent>
@@ -148,7 +150,7 @@ export default async function SettingsPage() {
                 <Input
                   id="siret"
                   name="siret"
-                  defaultValue={(settings as any).siret}
+                  defaultValue={settings.siret ?? ""}
                   placeholder="123 456 789 00012"
                 />
               </div>
@@ -157,7 +159,7 @@ export default async function SettingsPage() {
                 <Input
                   id="vatNumber"
                   name="vatNumber"
-                  defaultValue={(settings as any).vatNumber}
+                  defaultValue={settings.vatNumber ?? ""}
                   placeholder="FR12345678901"
                 />
               </div>
@@ -183,7 +185,7 @@ export default async function SettingsPage() {
                 name="logoUrl"
                 type="url"
                 placeholder="https://exemple.com/logo.png"
-                defaultValue={(settings as any).logoUrl}
+                defaultValue={settings.logoUrl ?? ""}
               />
               <p className="text-xs text-muted-foreground">
                 URL publique de votre logo (format PNG ou JPG recommandé, max
@@ -196,14 +198,14 @@ export default async function SettingsPage() {
                 id="invoiceFooter"
                 name="invoiceFooter"
                 placeholder="Conditions de paiement, mentions légales..."
-                defaultValue={(settings as any).invoiceFooter}
+                defaultValue={settings.invoiceFooter ?? ""}
               />
             </div>
-            {(settings as any).logoUrl && (
+            {settings.logoUrl && (
               <div className="p-4 bg-muted rounded-lg">
                 <p className="text-sm font-medium mb-2">Aperçu du logo :</p>
                 <img
-                  src={(settings as any).logoUrl}
+                  src={settings.logoUrl}
                   alt="Logo entreprise"
                   className="max-h-20 max-w-48 object-contain"
                 />
