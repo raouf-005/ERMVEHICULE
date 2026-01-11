@@ -25,8 +25,12 @@ export function DeleteVehicleButton({
         await deleteVehicleAction(vehicleId);
         router.push("/vehicles");
         router.refresh();
-      } catch (error: any) {
-        alert(error.message || "Erreur lors de la suppression");
+      } catch (error) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : "Erreur lors de la suppression";
+        alert(message);
       }
     });
   };
