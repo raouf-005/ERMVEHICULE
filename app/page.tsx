@@ -20,41 +20,65 @@ import {
   Clock,
   CheckCircle,
 } from "lucide-react";
-import { DashboardCharts } from "@/src/components/dashboard/DashboardCharts";
+import { ChartWrapper } from "@/src/components/dashboard/ChartWrapper";
 
 async function getDashboardStats() {
-  // 1. Revenue (Paid Invoices)
-  const paidInvoices = await prisma.invoice.findMany({
-    where: { status: "PAID" },
-    select: { totalTtc: true, subtotalHt: true, paidAt: true },
-  });
-  const totalRevenue = paidInvoices.reduce(
-    (acc, inv) => acc + Number(inv.totalTtc),
-    0
-  );
-  const totalHt = paidInvoices.reduce(
-    (acc, inv) => acc + Number(inv.subtotalHt),
-    0
-  );
+  const sixMonthsAgo = new Date();
+  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+  // Run ALL queries in parallel for maximum speed
+  const [
+    paidStats,
+    pendingStats,
+    statusCounts,
+    recentPaidInvoices,
+    lowStockCount,
+    recentInvoices,
+    invoiceCount,
+    customerCount,
+    vehicleCount,
+    paidInvoiceCount,
+  ] = await Promise.all([
+    // 1. Revenue (Paid Invoices)
+    prisma.invoice.aggregate({
+      where: { status: "PAID" },
+      _sum: { totalTtc: true, subtotalHt: true },
+    }),
+    // 2. Pending Revenue
+    prisma.invoice.aggregate({
+      where: { status: "ISSUED" },
+      _sum: { totalTtc: true },
+    }),
+    // 3. Invoice Counts by Status
+    prisma.invoice.groupBy({
+      by: ["status"],
+      _count: { status: true },
+    }),
+    // 4. Monthly Revenue (last 6 months)
+    prisma.invoice.findMany({
+      where: { status: "PAID", paidAt: { gte: sixMonthsAgo } },
+      select: { totalTtc: true, paidAt: true },
+    }),
+    // 5. Low Stock Parts
+    prisma.part.count({ where: { stockQty: { lte: 5 } } }),
+    // 6. Recent Invoices
+    prisma.invoice.findMany({
+      take: 5,
+      orderBy: { createdAt: "desc" },
+      include: { customer: true },
+    }),
+    // 7. Counts
+    prisma.invoice.count(),
+    prisma.customer.count(),
+    prisma.vehicle.count(),
+    prisma.invoice.count({ where: { status: "PAID" } }),
+  ]);
+
+  // Process results
+  const totalRevenue = Number(paidStats._sum.totalTtc) || 0;
+  const totalHt = Number(paidStats._sum.subtotalHt) || 0;
   const totalVat = totalRevenue - totalHt;
-
-  // 2. Pending Revenue (Issued Invoices)
-  const pendingInvoices = await prisma.invoice.findMany({
-    where: { status: "ISSUED" },
-    select: { totalTtc: true },
-  });
-  const pendingAmount = pendingInvoices.reduce(
-    (acc, inv) => acc + Number(inv.totalTtc),
-    0
-  );
-
-  // 3. Invoice Counts by Status for Charts
-  const statusCounts = await prisma.invoice.groupBy({
-    by: ["status"],
-    _count: {
-      status: true,
-    },
-  });
+  const pendingAmount = Number(pendingStats._sum.totalTtc) || 0;
 
   const statusMap = {
     DRAFT: "Brouillon",
@@ -67,18 +91,6 @@ async function getDashboardStats() {
     name: statusMap[item.status as keyof typeof statusMap] || item.status,
     value: item._count.status,
   }));
-
-  // 4. Monthly Revenue (last 6 months)
-  const sixMonthsAgo = new Date();
-  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-
-  const recentPaidInvoices = await prisma.invoice.findMany({
-    where: {
-      status: "PAID",
-      paidAt: { gte: sixMonthsAgo },
-    },
-    select: { totalTtc: true, paidAt: true },
-  });
 
   const monthlyData: { [key: string]: number } = {};
   const months = [
@@ -125,29 +137,8 @@ async function getDashboardStats() {
     amount,
   }));
 
-  // 5. Low Stock Parts
-  const lowStockCount = await prisma.part.count({
-    where: {
-      stockQty: {
-        lte: 5,
-      },
-    },
-  });
-
-  // 6. Recent Activity
-  const recentInvoices = await prisma.invoice.findMany({
-    take: 5,
-    orderBy: { createdAt: "desc" },
-    include: { customer: true },
-  });
-
-  const invoiceCount = await prisma.invoice.count();
-  const customerCount = await prisma.customer.count();
-  const vehicleCount = await prisma.vehicle.count();
-
-  // 7. Average Invoice Value
   const avgInvoiceValue =
-    invoiceCount > 0 ? totalRevenue / paidInvoices.length : 0;
+    paidInvoiceCount > 0 ? totalRevenue / paidInvoiceCount : 0;
 
   return {
     totalRevenue,
@@ -237,13 +228,15 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-l-4 border-l-purple-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Factures</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
+            <FileText className="h-4 w-4 text-purple-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.invoiceCount}</div>
+            <div className="text-2xl font-bold text-purple-600">
+              {stats.invoiceCount}
+            </div>
             <p className="text-xs text-muted-foreground mt-1">
               Moy:{" "}
               {stats.avgInvoiceValue.toLocaleString("fr-FR", {
@@ -255,15 +248,15 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-l-4 border-l-orange-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Clients / Véhicules
             </CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Users className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-orange-600">
               {stats.customerCount} / {stats.vehicleCount}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
@@ -303,7 +296,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Charts Section */}
-      <DashboardCharts
+      <ChartWrapper
         financials={stats.charts.financials}
         invoiceStatus={stats.charts.invoiceStatus}
         monthlyRevenue={stats.charts.monthlyRevenue}

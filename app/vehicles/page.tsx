@@ -16,7 +16,15 @@ import {
   CardTitle,
   CardDescription,
 } from "@/src/components/ui/card";
-import { Plus, Edit, Car, Gauge, Calendar } from "lucide-react";
+import {
+  Plus,
+  Edit,
+  Car,
+  Gauge,
+  Calendar,
+  Activity,
+  Wrench,
+} from "lucide-react";
 import { Badge } from "@/src/components/ui/badge";
 
 export default async function VehiclesPage() {
@@ -65,23 +73,39 @@ export default async function VehiclesPage() {
 
       {/* Quick Stats */}
       <div className="grid gap-4 md:grid-cols-3">
-        <Card>
+        <Card className="border-l-4 border-l-blue-600 bg-gradient-to-br from-white to-blue-50/50">
           <CardHeader className="pb-2">
-            <CardDescription>Total véhicules</CardDescription>
-            <CardTitle className="text-3xl">{stats.total}</CardTitle>
+            <CardDescription className="flex items-center gap-2">
+              <Car className="h-4 w-4 text-blue-600" />
+              Parc Automobile
+            </CardDescription>
+            <CardTitle className="text-4xl font-bold text-slate-900 tracking-tight">
+              {stats.total}
+            </CardTitle>
           </CardHeader>
         </Card>
-        <Card>
+        <Card className="border-l-4 border-l-orange-500 bg-gradient-to-br from-white to-orange-50/50">
           <CardHeader className="pb-2">
-            <CardDescription>Avec interventions</CardDescription>
-            <CardTitle className="text-3xl">{stats.withOrders}</CardTitle>
+            <CardDescription className="flex items-center gap-2">
+              <Wrench className="h-4 w-4 text-orange-500" />
+              En Intervention
+            </CardDescription>
+            <CardTitle className="text-4xl font-bold text-slate-900 tracking-tight">
+              {stats.withOrders}
+            </CardTitle>
           </CardHeader>
         </Card>
-        <Card>
+        <Card className="border-l-4 border-l-emerald-600 bg-gradient-to-br from-white to-emerald-50/50">
           <CardHeader className="pb-2">
-            <CardDescription>Kilométrage moyen</CardDescription>
-            <CardTitle className="text-3xl">
-              {stats.avgMileage.toLocaleString()} km
+            <CardDescription className="flex items-center gap-2">
+              <Gauge className="h-4 w-4 text-emerald-600" />
+              Kilométrage Moy.
+            </CardDescription>
+            <CardTitle className="text-4xl font-bold text-slate-900 tracking-tight">
+              {stats.avgMileage.toLocaleString()}{" "}
+              <span className="text-lg font-medium text-muted-foreground">
+                km
+              </span>
             </CardTitle>
           </CardHeader>
         </Card>

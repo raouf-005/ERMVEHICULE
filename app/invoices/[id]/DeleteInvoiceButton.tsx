@@ -5,16 +5,12 @@ import { useRouter } from "next/navigation";
 import { Trash2, Loader2 } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/src/components/ui/alert-dialog";
+  SimpleDialog,
+  SimpleDialogHeader,
+  SimpleDialogFooter,
+  SimpleDialogTitle,
+  SimpleDialogDescription,
+} from "@/src/components/ui/simple-dialog";
 import { deleteInvoiceAction } from "@/app/invoices/actions";
 
 interface DeleteInvoiceButtonProps {
@@ -29,6 +25,7 @@ export function DeleteInvoiceButton({
   status,
 }: DeleteInvoiceButtonProps) {
   const [isDeleting, setIsDeleting] = useState(false);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
 
   const canDelete = status === "DRAFT" || status === "CANCELED";
@@ -37,6 +34,7 @@ export function DeleteInvoiceButton({
     setIsDeleting(true);
     try {
       await deleteInvoiceAction(invoiceId);
+      setOpen(false);
     } catch (error) {
       console.error("Erreur lors de la suppression:", error);
       setIsDeleting(false);
@@ -57,29 +55,31 @@ export function DeleteInvoiceButton({
   }
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Supprimer la facture ?</AlertDialogTitle>
-          <AlertDialogDescription>
+    <>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+        onClick={() => setOpen(true)}
+      >
+        <Trash2 className="h-4 w-4" />
+      </Button>
+
+      <SimpleDialog open={open} onOpenChange={setOpen}>
+        <SimpleDialogHeader>
+          <SimpleDialogTitle>Supprimer la facture ?</SimpleDialogTitle>
+          <SimpleDialogDescription>
             Vous êtes sur le point de supprimer la facture{" "}
             <strong>{invoiceNumber}</strong>. Cette action est irréversible.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Annuler</AlertDialogCancel>
-          <AlertDialogAction
+          </SimpleDialogDescription>
+        </SimpleDialogHeader>
+        <SimpleDialogFooter>
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Annuler
+          </Button>
+          <Button
             onClick={handleDelete}
-            className="bg-red-600 hover:bg-red-700"
+            className="bg-red-600 hover:bg-red-700 text-white"
             disabled={isDeleting}
           >
             {isDeleting ? (
@@ -90,9 +90,9 @@ export function DeleteInvoiceButton({
             ) : (
               "Supprimer"
             )}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </Button>
+        </SimpleDialogFooter>
+      </SimpleDialog>
+    </>
   );
 }
