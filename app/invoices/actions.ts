@@ -9,6 +9,7 @@ import {
 } from "@/src/features/invoices/invoice.schema";
 import { InvoiceStatus, LineItemKind } from "@prisma/client";
 import { auth } from "@/src/auth";
+import { revalidateInvoices } from "@/src/lib/revalidate";
 
 /**
  * Check if user can access this invoice
@@ -128,6 +129,7 @@ export async function updateInvoiceAction(
     });
   });
 
+  await revalidateInvoices();
   revalidatePath(`/invoices/${invoiceId}`);
   revalidatePath("/invoices");
   redirect(`/invoices/${invoiceId}`);
@@ -184,6 +186,7 @@ export async function deleteInvoiceAction(invoiceId: string) {
     });
   });
 
+  await revalidateInvoices();
   revalidatePath("/invoices");
   redirect("/invoices");
 }

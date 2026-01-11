@@ -4,6 +4,7 @@ import { prisma } from "@/src/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { revalidateCustomers } from "@/src/lib/revalidate";
 
 const customerSchema = z.object({
   firstName: z.string().min(1, "Prénom requis"),
@@ -39,6 +40,7 @@ export async function updateCustomerAction(id: string, formData: FormData) {
     data: validated,
   });
 
+  await revalidateCustomers();
   revalidatePath("/customers");
   redirect("/customers");
 }
@@ -77,5 +79,6 @@ export async function deleteCustomerAction(id: string) {
     where: { id },
   });
 
+  await revalidateCustomers();
   revalidatePath("/customers");
 }

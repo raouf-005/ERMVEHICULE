@@ -4,6 +4,7 @@ import { prisma } from "@/src/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { revalidateVehicles } from "@/src/lib/revalidate";
 
 const vehicleSchema = z.object({
   licensePlate: z.string().min(1, "Immatriculation requise"),
@@ -41,6 +42,7 @@ export async function updateVehicleAction(id: string, formData: FormData) {
     },
   });
 
+  await revalidateVehicles();
   revalidatePath("/vehicles");
   redirect("/vehicles");
 }
